@@ -1,0 +1,11 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+input, select {
+    outline: none;
+}
+
+button {
+    transition: background-color 0.2s ease;
+}

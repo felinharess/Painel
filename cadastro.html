@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastro de Sala</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="cadastro.css" />
+</head>
+<body class="bg-gray-100 p-6 font-sans">
+  <div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow">
+    <h2 class="text-2xl font-bold mb-6 text-blue-600">Cadastro de Sala</h2>
+    <form id="cadastroForm" class="space-y-4">
+      <div>
+        <label>Sala:</label>
+        <select id="roomSelect" required class="w-full border p-2 rounded">
+          <option value="">-- Selecione --</option>
+          <optgroup label="Laboratórios">
+            <option value="lab1">Laboratório 1</option>
+            <option value="lab2">Laboratório 2</option>
+            <option value="lab3">Laboratório 3</option>
+            <option value="lab4">Laboratório 4</option>
+            <option value="lab5">Laboratório 5</option>
+          </optgroup>
+          <option value="auditorio">Auditório</option>
+          <option value="multiuso">Sala Multiuso</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Turma:</label>
+        <input type="text" id="turma" class="w-full border p-2 rounded" required />
+      </div>
+
+      <div>
+        <label>Matéria:</label>
+        <input type="text" id="materia" class="w-full border p-2 rounded" required />
+      </div>
+
+      <div>
+        <label>Professor:</label>
+        <input type="text" id="professor" class="w-full border p-2 rounded" required />
+      </div>
+
+      <div id="eventoDiv" class="hidden">
+        <label>Tema do Evento:</label>
+        <input type="text" id="evento" class="w-full border p-2 rounded" />
+      </div>
+
+      <div>
+        <label>Horário:</label>
+        <select id="periodo" class="w-full border p-2 rounded">
+          <option value="">-- Selecione --</option>
+          <option value="custom">Personalizado</option>
+          <option value="matutino">Matutino (8:00 - 11:10)</option>
+          <option value="vespertino1">Vespertino (13:00 - 15:00)</option>
+          <option value="vespertino2">Vespertino (16:00 - 18:30)</option>
+          <option value="noturno">Noturno (19:00 - 22:00)</option>
+        </select>
+      </div>
+
+      <div id="customTimeDiv" class="flex gap-2 hidden">
+        <input type="time" id="horaInicio" class="border p-2 rounded flex-1" />
+        <span class="self-center">até</span>
+        <input type="time" id="horaFim" class="border p-2 rounded flex-1" />
+      </div>
+
+      <div class="flex justify-between mt-6">
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Salvar</button>
+        <a href="index.html" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Cancelar</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('cadastroForm');
+    const eventoDiv = document.getElementById('eventoDiv');
+    const customTimeDiv = document.getElementById('customTimeDiv');
+
+    document.getElementById('roomSelect').addEventListener('change', (e) => {
+      eventoDiv.classList.toggle('hidden', e.target.value !== 'auditorio');
+    });
+
+    document.getElementById('periodo').addEventListener('change', (e) => {
+      customTimeDiv.classList.toggle('hidden', e.target.value !== 'custom');
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const roomId = document.getElementById('roomSelect').value;
+      const turma = document.getElementById('turma').value;
+      const materia = document.getElementById('materia').value;
+      const professor = document.getElementById('professor').value;
+      const evento = document.getElementById('evento').value;
+      const periodo = document.getElementById('periodo').value;
+
+      let horario = '';
+      if (periodo === 'custom') {
+        const inicio = document.getElementById('horaInicio').value;
+        const fim = document.getElementById('horaFim').value;
+        horario = `${inicio.replace(':', 'h')} - ${fim.replace(':', 'h')}`;
+      } else {
+        const horarios = {
+          matutino: '8:00 - 11:10',
+          vespertino1: '13:00 - 15:00',
+          vespertino2: '16:00 - 18:30',
+          noturno: '19:00 - 22:00'
+        };
+        horario = horarios[periodo];
+      }
+
+      const roomsData = JSON.parse(localStorage.getItem('roomsData')) || {};
+      roomsData[roomId] = {
+        turma,
+        materia,
+        professor,
+        horario,
+        ...(roomId === 'auditorio' && { evento })
+      };
+
+      localStorage.setItem('roomsData', JSON.stringify(roomsData));
+      alert("Sala cadastrada com sucesso!");
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

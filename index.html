@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Sistema de Salas Universitárias</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -93,39 +93,6 @@
                 grid-template-columns: 1fr;
             }
         }
-
-        /* Estilos para o modal administrativo */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 100;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            width: 80%;
-            max-width: 600px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-        }
-
-        /* Estilo para seleção de horário */
-        .time-selector {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .time-selector input {
-            flex: 1;
-        }
     </style>
 </head>
 <body>
@@ -136,84 +103,15 @@
             <div id="currentDateTime" class="text-xl mt-2"></div>
         </header>
 
-        <!-- Botão Admin (flutuante) -->
+        <!-- Botão Admin (redireciona) -->
         <button id="adminBtn" class="fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors">
             <i class="fas fa-lock"></i>
         </button>
 
-        <!-- Modal Admin -->
-        <div id="adminModal" class="modal">
-            <div class="modal-content">
-                <span class="float-right cursor-pointer text-gray-500 hover:text-gray-700" id="closeModal">&times;</span>
-                <h2 class="text-xl font-bold mb-4">Painel Administrativo</h2>
-                
-                <form id="roomForm" class="space-y-4">
-                    <div>
-                        <label class="block text-gray-700 mb-2">Selecione a Sala</label>
-                        <select id="roomSelect" class="w-full p-2 border rounded" required>
-                            <option value="">-- Selecione --</option>
-                            <optgroup label="Laboratórios">
-                                <option value="lab1">Laboratório 1</option>
-                                <option value="lab2">Laboratório 2</option>
-                                <option value="lab3">Laboratório 3</option>
-                                <option value="lab4">Laboratório 4</option>
-                                <option value="lab5">Laboratório 5</option>
-                            </optgroup>
-                            <option value="auditorio">Auditório</option>
-                            <option value="multiuso">Sala Multiuso</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-gray-700 mb-2">Turma</label>
-                        <input type="text" id="turma" class="w-full p-2 border rounded" required>
-                    </div>
-
-                    <div>
-                        <label class="block text-gray-700 mb-2">Matéria</label>
-                        <input type="text" id="materia" class="w-full p-2 border rounded" required>
-                    </div>
-
-                    <div>
-                        <label class="block text-gray-700 mb-2">Professor</label>
-                        <input type="text" id="professor" class="w-full p-2 border rounded" required>
-                    </div>
-
-                    <div id="eventoDiv" style="display: none;">
-                        <label class="block text-gray-700 mb-2">Tema do Evento (para auditório)</label>
-                        <input type="text" id="evento" class="w-full p-2 border rounded">
-                    </div>
-
-                    <div>
-                        <label class="block text-gray-700 mb-2">Horário</label>
-                        <select id="periodo" class="w-full p-2 border rounded mb-2">
-                            <option value="">-- Selecione --</option>
-                            <option value="custom">Personalizado</option>
-                            <option value="matutino">Matutino (8:00 - 11:10)</option>
-                            <option value="vespertino1">Vespertino (13:00 - 15:00)</option>
-                            <option value="vespertino2">Vespertino (16:00 - 18:30)</option>
-                            <option value="noturno">Noturno (19:00 - 22:00)</option>
-                        </select>
-
-                        <div id="customTimeDiv" style="display: none;" class="time-selector">
-                            <input type="time" id="horaInicio" class="p-2 border rounded">
-                            <span>até</span>
-                            <input type="time" id="horaFim" class="p-2 border rounded">
-                        </div>
-                    </div>
-
-                    <div class="flex justify-end space-x-3">
-                        <button type="button" id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Salvar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
         <!-- Grid de Salas -->
         <main class="grid-container">
             <!-- Laboratórios -->
-            <div class="room-card lab p-5 bg-white available">
+            <div id="lab1" class="room-card lab p-5 bg-white available">
                 <div class="flex justify-between items-start">
                     <h2 class="text-xl font-semibold text-gray-800">Laboratório 1</h2>
                     <span class="status-dot available-dot"></span>
@@ -223,7 +121,7 @@
                 </div>
             </div>
 
-            <div class="room-card lab p-5 bg-white available">
+            <div id="lab2" class="room-card lab p-5 bg-white available">
                 <div class="flex justify-between items-start">
                     <h2 class="text-xl font-semibold text-gray-800">Laboratório 2</h2>
                     <span class="status-dot available-dot"></span>
@@ -233,7 +131,7 @@
                 </div>
             </div>
 
-            <div class="room-card lab p-5 bg-white available">
+            <div id="lab3" class="room-card lab p-5 bg-white available">
                 <div class="flex justify-between items-start">
                     <h2 class="text-xl font-semibold text-gray-800">Laboratório 3</h2>
                     <span class="status-dot available-dot"></span>
@@ -243,7 +141,7 @@
                 </div>
             </div>
 
-            <div class="room-card lab p-5 bg-white available">
+            <div id="lab4" class="room-card lab p-5 bg-white available">
                 <div class="flex justify-between items-start">
                     <h2 class="text-xl font-semibold text-gray-800">Laboratório 4</h2>
                     <span class="status-dot available-dot"></span>
@@ -253,7 +151,7 @@
                 </div>
             </div>
 
-            <div class="room-card lab p-5 bg-white available">
+            <div id="lab5" class="room-card lab p-5 bg-white available">
                 <div class="flex justify-between items-start">
                     <h2 class="text-xl font-semibold text-gray-800">Laboratório 5</h2>
                     <span class="status-dot available-dot"></span>
@@ -264,7 +162,7 @@
             </div>
 
             <!-- Auditório -->
-            <div class="room-card auditorio p-5 bg-white available">
+            <div id="auditorio" class="room-card auditorio p-5 bg-white available">
                 <div class="flex justify-between items-start">
                     <h2 class="text-xl font-semibold text-gray-800">Auditório</h2>
                     <span class="status-dot available-dot"></span>
@@ -275,7 +173,7 @@
             </div>
 
             <!-- Sala Multiuso -->
-            <div class="room-card multiuso p-5 bg-white available">
+            <div id="multiuso" class="room-card multiuso p-5 bg-white available">
                 <div class="flex justify-between items-start">
                     <h2 class="text-xl font-semibold text-gray-800">Sala Multiuso</h2>
                     <span class="status-dot available-dot"></span>
@@ -287,183 +185,7 @@
         </main>
     </div>
 
-    <script>
-        // Atualização de data e hora em tempo real
-        function updateDateTime() {
-            const now = new Date();
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            };
-            const formattedDateTime = now.toLocaleDateString('pt-BR', options);
-            document.getElementById('currentDateTime').textContent = formattedDateTime;
-        }
-
-        setInterval(updateDateTime, 1000);
-        updateDateTime(); // Chamada inicial
-
-        // Verificação de horário para mudar status das salas
-        function checkRoomStatus() {
-            const now = new Date();
-            const currentHour = now.getHours();
-            const currentMinutes = now.getMinutes();
-            const currentTime = currentHour * 60 + currentMinutes;
-
-            // Obter todos os dados das salas armazenados
-            const roomsData = JSON.parse(localStorage.getItem('roomsData')) || {};
-            
-            // Verificar cada sala
-            for (const roomId in roomsData) {
-                const room = roomsData[roomId];
-                if (room.horario) {
-                    const [startHour, startMinute] = room.horario.split(' - ')[0].split(':').map(Number);
-                    const [endHour, endMinute] = room.horario.split(' - ')[1].split(':').map(Number);
-                    
-                    const startTime = startHour * 60 + startMinute;
-                    const endTime = endHour * 60 + endMinute;
-                    
-                    const isOccupied = currentTime >= startTime && currentTime <= endTime;
-                    
-                    // Atualizar UI
-                    const roomElement = document.getElementById(roomId);
-                    if (roomElement) {
-                        roomElement.classList.remove('available', 'occupied');
-                        roomElement.classList.add(isOccupied ? 'occupied' : 'available');
-                        
-                        const dot = roomElement.querySelector('.status-dot');
-                        if (dot) {
-                            dot.classList.remove('available-dot', 'occupied-dot');
-                            dot.classList.add(isOccupied ? 'occupied-dot' : 'available-dot');
-                        }
-                    }
-                }
-            }
-            
-            // Atualizar conteúdo das salas
-            updateRoomDisplays();
-        }
-
-        setInterval(checkRoomStatus, 60000); // Verificar a cada minuto
-        checkRoomStatus(); // Chamada inicial
-
-        // Função para atualizar os displays das salas
-        function updateRoomDisplays() {
-            const roomsData = JSON.parse(localStorage.getItem('roomsData')) || {};
-            
-            for (const roomId in roomsData) {
-                const room = roomsData[roomId];
-                const contentElement = document.getElementById(`${roomId}-content`);
-                
-                if (contentElement) {
-                    if (room.turma && room.materia && room.professor && room.horario) {
-                        let contentHTML = `
-                            <p><i class="fas fa-users mr-2"></i> ${room.turma}</p>
-                            <p><i class="fas fa-book mr-2"></i> ${room.materia}</p>
-                            <p><i class="fas fa-user-tie mr-2"></i> ${room.professor}</p>
-                            <p><i class="fas fa-clock mr-2"></i> ${room.horario}</p>
-                        `;
-                        
-                        if (roomId === 'auditorio' && room.evento) {
-                            contentHTML += `<p><i class="fas fa-calendar-alt mr-2"></i> ${room.evento}</p>`;
-                        }
-                        
-                        contentElement.innerHTML = contentHTML;
-                    } else {
-                        contentElement.innerHTML = `<p><i class="fas fa-clock mr-2"></i> Disponível</p>`;
-                    }
-                }
-            }
-        }
-
-        // Funções para modal administrativo
-        document.getElementById('adminBtn').addEventListener('click', function() {
-            document.getElementById('adminModal').style.display = 'block';
-        });
-
-        document.getElementById('closeModal').addEventListener('click', function() {
-            document.getElementById('adminModal').style.display = 'none';
-        });
-
-        document.getElementById('cancelBtn').addEventListener('click', function() {
-            document.getElementById('adminModal').style.display = 'none';
-            document.getElementById('roomForm').reset();
-            document.getElementById('eventoDiv').style.display = 'none';
-            document.getElementById('customTimeDiv').style.display = 'none';
-        });
-
-        // Quando selecionar sala, mostrar campo de evento se for auditório
-        document.getElementById('roomSelect').addEventListener('change', function() {
-            const selectedRoom = this.value;
-            document.getElementById('eventoDiv').style.display = selectedRoom === 'auditorio' ? 'block' : 'none';
-        });
-
-        // Quando selecionar período, mostrar seleção de horário personalizado se necessário
-        document.getElementById('periodo').addEventListener('change', function() {
-            const selectedPeriod = this.value;
-            document.getElementById('customTimeDiv').style.display = selectedPeriod === 'custom' ? 'flex' : 'none';
-        });
-
-        // Formulário de envio - salvar dados da sala
-        document.getElementById('roomForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const roomId = document.getElementById('roomSelect').value;
-            const turma = document.getElementById('turma').value;
-            const materia = document.getElementById('materia').value;
-            const professor = document.getElementById('professor').value;
-            const evento = document.getElementById('evento').value;
-            const periodo = document.getElementById('periodo').value;
-            
-            let horario = '';
-            
-            if (periodo === 'custom') {
-                const horaInicio = document.getElementById('horaInicio').value;
-                const horaFim = document.getElementById('horaFim').value;
-                horario = `${horaInicio.replace(':', 'h')} - ${horaFim.replace(':', 'h')}`;
-            } else {
-                switch(periodo) {
-                    case 'matutino': horario = '8:00 - 11:10'; break;
-                    case 'vespertino1': horario = '13:00 - 15:00'; break;
-                    case 'vespertino2': horario = '16:00 - 18:30'; break;
-                    case 'noturno': horario = '19:00 - 22:00'; break;
-                }
-            }
-            
-            // Salvar no localStorage
-            const roomsData = JSON.parse(localStorage.getItem('roomsData')) || {};
-            roomsData[roomId] = {
-                turma,
-                materia,
-                professor,
-                horario,
-                ...(roomId === 'auditorio' && { evento })
-            };
-            
-            localStorage.setItem('roomsData', JSON.stringify(roomsData));
-            
-            // Fechar modal e resetar formulário
-            document.getElementById('adminModal').style.display = 'none';
-            document.getElementById('roomForm').reset();
-            document.getElementById('eventoDiv').style.display = 'none';
-            document.getElementById('customTimeDiv').style.display = 'none';
-            
-            // Atualizar displays e status
-            updateRoomDisplays();
-            checkRoomStatus();
-            
-            // Feedback para o usuário
-            alert('Dados da sala atualizados com sucesso!');
-        });
-
-        // Carregar dados ao iniciar
-        document.addEventListener('DOMContentLoaded', function() {
-            updateRoomDisplays();
-        });
-    </script>
+    <!-- JavaScript separado -->
+    <script src="script.js"></script>
 </body>
 </html>
