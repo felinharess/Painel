@@ -1,4 +1,4 @@
-/* Variáveis CSS */
+/* Variáveis CSS - Modo Claro (padrão) */
 :root {
     --primary: #2563eb;
     --primary-dark: #1e40af;
@@ -14,10 +14,16 @@
     --gray-light: #e2e8f0;
     
     /* Cores por tipo de sala */
-    --lab-color: #3b82f6;      /* Azul para laboratórios */
-    --class-color: #10b981;    /* Verde para salas de aula */
-    --event-color: #8b5cf6;    /* Roxo para auditórios */
-    --other-color: #f59e0b;    /* Amarelo para outros */
+    --lab-color: #3b82f6;
+    --class-color: #10b981;
+    --event-color: #8b5cf6;
+    --other-color: #f59e0b;
+    
+    /* Cores de fundo */
+    --bg-color: #f5f7fa;
+    --bg-card: white;
+    --text-color: #1e293b;
+    --footer-bg: var(--primary-dark);
     
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -26,6 +32,30 @@
     --radius-md: 8px;
     --radius-lg: 12px;
     --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  
+  /* Variáveis CSS - Modo Escuro */
+  [data-theme="dark"] {
+    --primary: #3b82f6;
+    --primary-dark: #1e40af;
+    --primary-light: #60a5fa;
+    --secondary: #10b981;
+    --accent: #ef4444;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #dc2626;
+    
+    --bg-color: #0f172a;
+    --bg-card: #1e293b;
+    --text-color: #f8fafc;
+    --footer-bg: #0f172a;
+    
+    --gray: #64748b;
+    --gray-light: #334155;
+    
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
   }
   
   /* Reset e Base */
@@ -38,11 +68,12 @@
   body {
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
     line-height: 1.6;
-    color: var(--dark);
-    background-color: #f5f7fa;
+    color: var(--text-color);
+    background-color: var(--bg-color);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    transition: var(--transition);
   }
   
   /* Header */
@@ -65,6 +96,9 @@
   
   .logo-container {
     flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
   
   .logo-link {
@@ -83,10 +117,27 @@
     transform: scale(1.05);
   }
   
+  /* Botão de Tema */
+  .theme-toggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: var(--transition);
+  }
+  
+  .theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
   /* Data e Hora */
   .datetime-container {
     display: flex;
     align-items: center;
+    gap: 1rem;
   }
   
   .datetime {
@@ -137,7 +188,7 @@
   }
   
   .room-card {
-    background-color: white;
+    background-color: var(--bg-card);
     border-radius: var(--radius-md);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
@@ -148,17 +199,17 @@
   
   .room-card[data-type="lab"] {
     border-top-color: var(--lab-color);
-    background: linear-gradient(to right, rgba(59, 130, 246, 0.03), white 10%);
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.1), var(--bg-card) 20%);
   }
   
   .room-card[data-type="class"] {
     border-top-color: var(--class-color);
-    background: linear-gradient(to right, rgba(16, 185, 129, 0.03), white 10%);
+    background: linear-gradient(to right, rgba(16, 185, 129, 0.1), var(--bg-card) 20%);
   }
   
   .room-card[data-type="event"] {
     border-top-color: var(--event-color);
-    background: linear-gradient(to right, rgba(139, 92, 246, 0.03), white 10%);
+    background: linear-gradient(to right, rgba(139, 92, 246, 0.1), var(--bg-card) 20%);
   }
   
   .room-card:hover {
@@ -172,13 +223,33 @@
   
   .room-card h3 {
     margin-bottom: 1rem;
-    color: var(--dark);
+    color: var(--text-color);
     font-size: 1.25rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
   
+  .details {
+    display: grid;
+    gap: 0.75rem;
+  }
+  
+  .details p {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    color: var(--text-color);
+  }
+  
+  .details i {
+    width: 1.25rem;
+    text-align: center;
+    font-size: 1rem;
+  }
+  
+  /* Ícones por tipo de sala */
   .room-card[data-type="lab"] .details i {
     color: var(--lab-color);
   }
@@ -195,27 +266,9 @@
     color: var(--other-color);
   }
   
-  .details {
-    display: grid;
-    gap: 0.75rem;
-  }
-  
-  .details p {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.95rem;
-    color: var(--dark);
-  }
-  
-  .details i {
-    width: 1.25rem;
-    text-align: center;
-    font-size: 1rem;
-  }
-  
+  /* Footer */
   .footer {
-    background-color: var(--primary-dark);
+    background-color: var(--footer-bg);
     color: white;
     text-align: center;
     padding: 1.5rem;
@@ -232,6 +285,7 @@
     opacity: 0.8;
   }
   
+  /* Animações */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -247,6 +301,7 @@
     animation: fadeIn 0.5s ease-out forwards;
   }
   
+  /* Responsividade */
   @media (max-width: 768px) {
     .header-content {
       flex-direction: column;
@@ -261,4 +316,23 @@
     .rooms-container {
       grid-template-columns: 1fr;
     }
+  }
+  
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--gray-light);
+    border-radius: var(--radius-md);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: var(--radius-md);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-light);
   }

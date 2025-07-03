@@ -1,12 +1,42 @@
+// Função para alternar o tema
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  
+  // Atualiza o atributo data-theme
+  document.documentElement.setAttribute('data-theme', newTheme);
+  
+  // Atualiza o ícone do botão
+  const themeIcon = document.getElementById('themeToggle').querySelector('i');
+  themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  
+  // Salva a preferência no localStorage
+  localStorage.setItem('theme', newTheme);
+}
+
+// Verifica o tema salvo ou preferência do sistema
+function loadTheme() {
+  const savedTheme = localStorage.getItem('theme') || 
+                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  
+  const themeIcon = document.getElementById('themeToggle').querySelector('i');
+  themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+// Atualizar data e hora
 function updateDateTime() {
   const now = new Date();
   const datetimeElement = document.getElementById('currentDateTime');
   
+  // Formatar hora
   const hours = now.getHours().toString().padStart(2, '0');
   const minutes = now.getMinutes().toString().padStart(2, '0');
   const seconds = now.getSeconds().toString().padStart(2, '0');
   const timeString = `${hours}:${minutes}:${seconds}`;
   
+  // Formatar data
   const options = { 
     weekday: 'long', 
     day: 'numeric', 
@@ -15,6 +45,7 @@ function updateDateTime() {
   };
   const dateString = now.toLocaleDateString('pt-BR', options);
   
+  // Atualizar elementos
   const timePart = datetimeElement.querySelector('.time-part');
   const datePart = datetimeElement.querySelector('.date-part');
   
@@ -22,6 +53,7 @@ function updateDateTime() {
   datePart.textContent = dateString;
 }
 
+// Atualiza os cards das salas
 function updateRoomDisplays() {
   const roomsData = JSON.parse(localStorage.getItem('roomsData')) || {};
   const roomsContainer = document.querySelector('.rooms-container');
@@ -69,14 +101,25 @@ function updateRoomDisplays() {
   });
 }
 
+// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
+  // Carrega o tema
+  loadTheme();
+  
+  // Configura o botão de alternar tema
+  document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+  
+  // Atualiza data/hora e salas
   updateDateTime();
   updateRoomDisplays();
 
+  // Atualiza a cada segundo para o relógio
   setInterval(updateDateTime, 1000);
   
+  // Atualiza salas a cada minuto
   setInterval(updateRoomDisplays, 60000);
 
+  // Verifica se há edição pela URL
   const urlParams = new URLSearchParams(window.location.search);
   const editId = urlParams.get('edit');
   if (editId) {
