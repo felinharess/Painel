@@ -3,126 +3,160 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cadastro de Sala</title>
+  <title>Cadastro de Sala | Sistema de Gestão</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="cadastro.css" />
 </head>
-<body class="bg-gray-100 p-6 font-sans">
-  <div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow">
-    <h2 class="text-2xl font-bold mb-6 text-blue-600">Cadastro de Sala</h2>
-    <form id="cadastroForm" class="space-y-4">
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen p-6 font-sans">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <header class="flex justify-between items-center mb-8">
       <div>
-        <label>Sala:</label>
-        <select id="roomSelect" required class="w-full border p-2 rounded">
-          <option value="">-- Selecione --</option>
-          <optgroup label="Laboratórios">
-            <option value="lab1">Laboratório 1</option>
-            <option value="lab2">Laboratório 2</option>
-            <option value="lab3">Laboratório 3</option>
-            <option value="lab4">Laboratório 4</option>
-            <option value="lab5">Laboratório 5</option>
-          </optgroup>
-          <option value="auditorio">Auditório</option>
-          <option value="multiuso">Sala Multiuso</option>
-        </select>
+        <h1 class="text-3xl font-bold text-gray-800">Sistema de Gestão de Salas</h1>
+        <div id="currentDateTime" class="text-sm text-gray-600"></div>
+      </div>
+      <button id="viewRoomsBtn" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-all flex items-center gap-2">
+       <a href="index.html"><i class="fas fa-door-open"></i> Ver Salas</a> 
+      </button>
+    </header>
+
+    <!-- Main Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Form Section -->
+      <div class="lg:col-span-2">
+        <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+              <i class="fas fa-edit text-indigo-600"></i>
+              <span id="formTitle">Cadastrar Sala</span>
+            </h2>
+            <span id="formStatus" class="text-sm px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 hidden"></span>
+          </div>
+          
+          <form id="cadastroForm" class="space-y-5">
+            <input type="hidden" id="editId">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div class="space-y-1">
+                <label class="block text-sm font-medium text-gray-700">Sala <span class="text-red-500">*</span></label>
+                <select id="roomSelect" required class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
+                  <option value="">-- Selecione --</option>
+                  <optgroup label="Laboratórios">
+                    <option value="lab1">Laboratório 1</option>
+                    <option value="lab2">Laboratório 2</option>
+                    <option value="lab3">Laboratório 3</option>
+                    <option value="lab4">Laboratório 4</option>
+                    <option value="lab5">Laboratório 5</option>
+                  </optgroup>
+                  <option value="auditorio">Auditório</option>
+                  <option value="multiuso">Sala Multiuso</option>
+                </select>
+              </div>
+
+              <div class="space-y-1">
+                <label class="block text-sm font-medium text-gray-700">Turma <span class="text-red-500">*</span></label>
+                <input type="text" id="turma" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" required />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div class="space-y-1">
+                <label class="block text-sm font-medium text-gray-700">Matéria <span class="text-red-500">*</span></label>
+                <input type="text" id="materia" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" required />
+              </div>
+
+              <div class="space-y-1">
+                <label class="block text-sm font-medium text-gray-700">Professor <span class="text-red-500">*</span></label>
+                <input type="text" id="professor" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" required />
+              </div>
+            </div>
+
+            <div id="eventoDiv" class="hidden space-y-1">
+              <label class="block text-sm font-medium text-gray-700">Tema do Evento</label>
+              <input type="text" id="evento" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div class="space-y-1">
+                <label class="block text-sm font-medium text-gray-700">Horário <span class="text-red-500">*</span></label>
+                <select id="periodo" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
+                  <option value="">-- Selecione --</option>
+                  <option value="custom">Personalizado</option>
+                  <option value="matutino">Matutino (8:00 - 11:10)</option>
+                  <option value="vespertino1">Vespertino (13:00 - 15:00)</option>
+                  <option value="vespertino2">Vespertino (16:00 - 18:30)</option>
+                  <option value="noturno">Noturno (19:00 - 22:00)</option>
+                </select>
+              </div>
+
+              <div id="customTimeDiv" class="flex items-end gap-3 hidden">
+                <div class="flex-1 space-y-1">
+                  <label class="block text-sm font-medium text-gray-700">Hora Início</label>
+                  <input type="time" id="horaInicio" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
+                </div>
+                <span class="mb-3 text-gray-500">até</span>
+                <div class="flex-1 space-y-1">
+                  <label class="block text-sm font-medium text-gray-700">Hora Fim</label>
+                  <input type="time" id="horaFim" class="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
+                </div>
+              </div>
+            </div>
+
+            <div class="flex justify-between pt-4">
+              <div>
+                <button type="button" id="clearBtn" class="bg-gray-200 text-gray-700 px-5 py-2.5 rounded-lg hover:bg-gray-300 transition-all flex items-center gap-2">
+                  <i class="fas fa-eraser"></i> Limpar
+                </button>
+              </div>
+              <div class="flex gap-3">
+                <button type="submit" id="submitBtn" class="bg-indigo-600 text-white px-5 py-2.5 rounded-lg hover:bg-indigo-700 transition-all flex items-center gap-2">
+                  <i class="fas fa-save"></i> Salvar
+                </button>
+                <a href="index.html" class="bg-gray-400 text-white px-5 py-2.5 rounded-lg hover:bg-gray-500 transition-all flex items-center gap-2">
+                  <i class="fas fa-times"></i> Cancelar
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
 
-      <div>
-        <label>Turma:</label>
-        <input type="text" id="turma" class="w-full border p-2 rounded" required />
+      <!-- Reservations List -->
+      <div class="lg:col-span-1">
+        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 h-full">
+          <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <i class="fas fa-calendar-alt text-indigo-600"></i> Reservas Atuais
+          </h3>
+          
+          <div id="reservationsList" class="space-y-4">
+            <div class="text-center py-8 text-gray-500">
+              <i class="fas fa-door-open text-3xl mb-2"></i>
+              <p>Nenhuma reserva cadastrada</p>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div>
-        <label>Matéria:</label>
-        <input type="text" id="materia" class="w-full border p-2 rounded" required />
-      </div>
-
-      <div>
-        <label>Professor:</label>
-        <input type="text" id="professor" class="w-full border p-2 rounded" required />
-      </div>
-
-      <div id="eventoDiv" class="hidden">
-        <label>Tema do Evento:</label>
-        <input type="text" id="evento" class="w-full border p-2 rounded" />
-      </div>
-
-      <div>
-        <label>Horário:</label>
-        <select id="periodo" class="w-full border p-2 rounded">
-          <option value="">-- Selecione --</option>
-          <option value="custom">Personalizado</option>
-          <option value="matutino">Matutino (8:00 - 11:10)</option>
-          <option value="vespertino1">Vespertino (13:00 - 15:00)</option>
-          <option value="vespertino2">Vespertino (16:00 - 18:30)</option>
-          <option value="noturno">Noturno (19:00 - 22:00)</option>
-        </select>
-      </div>
-
-      <div id="customTimeDiv" class="flex gap-2 hidden">
-        <input type="time" id="horaInicio" class="border p-2 rounded flex-1" />
-        <span class="self-center">até</span>
-        <input type="time" id="horaFim" class="border p-2 rounded flex-1" />
-      </div>
-
-      <div class="flex justify-between mt-6">
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Salvar</button>
-        <a href="index.html" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Cancelar</a>
-      </div>
-    </form>
+    </div>
   </div>
 
-  <script>
-    const form = document.getElementById('cadastroForm');
-    const eventoDiv = document.getElementById('eventoDiv');
-    const customTimeDiv = document.getElementById('customTimeDiv');
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+    <div class="bg-white rounded-xl p-6 max-w-md w-full">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-gray-800">Confirmar Exclusão</h3>
+        <button id="closeDeleteModal" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <p class="mb-6">Tem certeza que deseja excluir esta reserva? Esta ação não pode ser desfeita.</p>
+      <div class="flex justify-end gap-3">
+        <button id="cancelDelete" class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">Cancelar</button>
+        <button id="confirmDelete" class="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700">Excluir</button>
+      </div>
+    </div>
+  </div>
 
-    document.getElementById('roomSelect').addEventListener('change', (e) => {
-      eventoDiv.classList.toggle('hidden', e.target.value !== 'auditorio');
-    });
-
-    document.getElementById('periodo').addEventListener('change', (e) => {
-      customTimeDiv.classList.toggle('hidden', e.target.value !== 'custom');
-    });
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const roomId = document.getElementById('roomSelect').value;
-      const turma = document.getElementById('turma').value;
-      const materia = document.getElementById('materia').value;
-      const professor = document.getElementById('professor').value;
-      const evento = document.getElementById('evento').value;
-      const periodo = document.getElementById('periodo').value;
-
-      let horario = '';
-      if (periodo === 'custom') {
-        const inicio = document.getElementById('horaInicio').value;
-        const fim = document.getElementById('horaFim').value;
-        horario = `${inicio.replace(':', 'h')} - ${fim.replace(':', 'h')}`;
-      } else {
-        const horarios = {
-          matutino: '8:00 - 11:10',
-          vespertino1: '13:00 - 15:00',
-          vespertino2: '16:00 - 18:30',
-          noturno: '19:00 - 22:00'
-        };
-        horario = horarios[periodo];
-      }
-
-      const roomsData = JSON.parse(localStorage.getItem('roomsData')) || {};
-      roomsData[roomId] = {
-        turma,
-        materia,
-        professor,
-        horario,
-        ...(roomId === 'auditorio' && { evento })
-      };
-
-      localStorage.setItem('roomsData', JSON.stringify(roomsData));
-      alert("Sala cadastrada com sucesso!");
-      window.location.href = "index.html";
-    });
-  </script>
+  <script src="cadastro.js"></script>
 </body>
 </html>

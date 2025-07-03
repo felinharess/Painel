@@ -1,0 +1,264 @@
+/* Variáveis CSS */
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --primary-light: #3b82f6;
+    --secondary: #10b981;
+    --accent: #ef4444;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #dc2626;
+    --light: #f8fafc;
+    --dark: #1e293b;
+    --gray: #94a3b8;
+    --gray-light: #e2e8f0;
+    
+    /* Cores por tipo de sala */
+    --lab-color: #3b82f6;      /* Azul para laboratórios */
+    --class-color: #10b981;    /* Verde para salas de aula */
+    --event-color: #8b5cf6;    /* Roxo para auditórios */
+    --other-color: #f59e0b;    /* Amarelo para outros */
+    
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  
+  /* Reset e Base */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+    background-color: #f5f7fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 1rem 2rem;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    z-index: 100;
+  }
+  
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo-container {
+    flex: 1;
+  }
+  
+  .logo-link {
+    display: inline-block;
+    transition: var(--transition);
+  }
+  
+  .logo-img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    transition: var(--transition);
+  }
+  
+  .logo-link:hover .logo-img {
+    transform: scale(1.05);
+  }
+  
+  /* Data e Hora */
+  .datetime-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .datetime {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+  }
+  
+  .datetime:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+  
+  .time-part {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  
+  .date-part {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-top: 0.25rem;
+  }
+  
+  /* Container Principal */
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    flex: 1;
+  }
+  
+  /* Cards de Sala */
+  .rooms-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  
+  .room-card {
+    background-color: white;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    position: relative;
+    border-top: 6px solid var(--other-color);
+  }
+  
+  .room-card[data-type="lab"] {
+    border-top-color: var(--lab-color);
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.03), white 10%);
+  }
+  
+  .room-card[data-type="class"] {
+    border-top-color: var(--class-color);
+    background: linear-gradient(to right, rgba(16, 185, 129, 0.03), white 10%);
+  }
+  
+  .room-card[data-type="event"] {
+    border-top-color: var(--event-color);
+    background: linear-gradient(to right, rgba(139, 92, 246, 0.03), white 10%);
+  }
+  
+  .room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .room-card .content {
+    padding: 1.5rem;
+  }
+  
+  .room-card h3 {
+    margin-bottom: 1rem;
+    color: var(--dark);
+    font-size: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .room-card[data-type="lab"] .details i {
+    color: var(--lab-color);
+  }
+  
+  .room-card[data-type="class"] .details i {
+    color: var(--class-color);
+  }
+  
+  .room-card[data-type="event"] .details i {
+    color: var(--event-color);
+  }
+  
+  .room-card[data-type="other"] .details i {
+    color: var(--other-color);
+  }
+  
+  .details {
+    display: grid;
+    gap: 0.75rem;
+  }
+  
+  .details p {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    color: var(--dark);
+  }
+  
+  .details i {
+    width: 1.25rem;
+    text-align: center;
+    font-size: 1rem;
+  }
+  
+  .footer {
+    background-color: var(--primary-dark);
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: auto;
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .room-card {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  @media (max-width: 768px) {
+    .header-content {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .datetime {
+      margin-top: 1rem;
+      align-items: center;
+    }
+    
+    .rooms-container {
+      grid-template-columns: 1fr;
+    }
+  }

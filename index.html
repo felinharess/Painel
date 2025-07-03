@@ -1,191 +1,41 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Sistema de Salas Universitárias</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --lab-color: #6366f1;
-            --aud-color: #10b981;
-            --multi-color: #f59e0b;
-            --available-color: #d1fae5;
-            --occupied-color: #fee2e2;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f3f4f6;
-            overflow: hidden;
-        }
-
-        .datetime {
-            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-            color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .room-card {
-            transition: all 0.3s ease;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .room-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        .lab {
-            border-top: 4px solid var(--lab-color);
-        }
-
-        .auditorio {
-            border-top: 4px solid var(--aud-color);
-        }
-
-        .multiuso {
-            border-top: 4px solid var(--multi-color);
-        }
-
-        .available {
-            background-color: var(--available-color);
-        }
-
-        .occupied {
-            background-color: var(--occupied-color);
-        }
-
-        .status-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .available-dot {
-            background-color: #10b981;
-        }
-
-        .occupied-dot {
-            background-color: #ef4444;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            height: calc(100vh - 120px);
-            overflow-y: auto;
-            padding: 1rem;
-        }
-
-        @media (max-width: 1024px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 640px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestão de Salas - FMP</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
-    <div class="flex flex-col h-screen">
-        <!-- Header com data/hora -->
-        <header class="datetime p-4 text-center">
-            <h1 class="text-2xl font-bold">Painel de salas</h1>
-            <div id="currentDateTime" class="text-xl mt-2"></div>
-        </header>
-
-        <!-- Botão Admin (redireciona) -->
-        <button id="adminBtn" class="fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors">
-            <i class="fas fa-lock"></i>
-        </button>
-
-        <!-- Grid de Salas -->
-        <main class="grid-container">
-            <!-- Laboratórios -->
-            <div id="lab1" class="room-card lab p-5 bg-white available">
-                <div class="flex justify-between items-start">
-                    <h2 class="text-xl font-semibold text-gray-800">Laboratório 1</h2>
-                    <span class="status-dot available-dot"></span>
-                </div>
-                <div id="lab1-content" class="mt-3 text-gray-600">
-                    <p><i class="fas fa-clock mr-2"></i> Disponível</p>
-                </div>
-            </div>
-
-            <div id="lab2" class="room-card lab p-5 bg-white available">
-                <div class="flex justify-between items-start">
-                    <h2 class="text-xl font-semibold text-gray-800">Laboratório 2</h2>
-                    <span class="status-dot available-dot"></span>
-                </div>
-                <div id="lab2-content" class="mt-3 text-gray-600">
-                    <p><i class="fas fa-clock mr-2"></i> Disponível</p>
-                </div>
-            </div>
-
-            <div id="lab3" class="room-card lab p-5 bg-white available">
-                <div class="flex justify-between items-start">
-                    <h2 class="text-xl font-semibold text-gray-800">Laboratório 3</h2>
-                    <span class="status-dot available-dot"></span>
-                </div>
-                <div id="lab3-content" class="mt-3 text-gray-600">
-                    <p><i class="fas fa-clock mr-2"></i> Disponível</p>
-                </div>
-            </div>
-
-            <div id="lab4" class="room-card lab p-5 bg-white available">
-                <div class="flex justify-between items-start">
-                    <h2 class="text-xl font-semibold text-gray-800">Laboratório 4</h2>
-                    <span class="status-dot available-dot"></span>
-                </div>
-                <div id="lab4-content" class="mt-3 text-gray-600">
-                    <p><i class="fas fa-clock mr-2"></i> Disponível</p>
-                </div>
-            </div>
-
-            <div id="lab5" class="room-card lab p-5 bg-white available">
-                <div class="flex justify-between items-start">
-                    <h2 class="text-xl font-semibold text-gray-800">Laboratório 5</h2>
-                    <span class="status-dot available-dot"></span>
-                </div>
-                <div id="lab5-content" class="mt-3 text-gray-600">
-                    <p><i class="fas fa-clock mr-2"></i> Disponível</p>
-                </div>
-            </div>
-
-            <!-- Auditório -->
-            <div id="auditorio" class="room-card auditorio p-5 bg-white available">
-                <div class="flex justify-between items-start">
-                    <h2 class="text-xl font-semibold text-gray-800">Auditório</h2>
-                    <span class="status-dot available-dot"></span>
-                </div>
-                <div id="auditorio-content" class="mt-3 text-gray-600">
-                    <p><i class="fas fa-clock mr-2"></i> Disponível</p>
-                </div>
-            </div>
-
-            <!-- Sala Multiuso -->
-            <div id="multiuso" class="room-card multiuso p-5 bg-white available">
-                <div class="flex justify-between items-start">
-                    <h2 class="text-xl font-semibold text-gray-800">Sala Multiuso</h2>
-                    <span class="status-dot available-dot"></span>
-                </div>
-                <div id="multiuso-content" class="mt-3 text-gray-600">
-                    <p><i class="fas fa-clock mr-2"></i> Disponível</p>
-                </div>
-            </div>
-        </main>
+  <header class="header">
+    <div class="header-content">
+      <div class="logo-container">
+        <a href="cadastro.html" class="logo-link">
+          <img src="Marca FMP 2.png" alt="Logo FMP" class="logo-img">
+        </a>
+      </div>
+      <div class="datetime-container">
+        <div id="currentDateTime" class="datetime">
+          <div class="time-part"></div>
+          <div class="date-part"></div>
+        </div>
+      </div>
     </div>
+  </header>
 
-    <!-- JavaScript separado -->
-    <script src="script.js"></script>
+  <div class="container">
+    <div class="rooms-container">
+      <!-- Os cards são inseridos dinamicamente aqui -->
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>Todos os direitos reservados a FMP e Felipe Linhares Domingues</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>
